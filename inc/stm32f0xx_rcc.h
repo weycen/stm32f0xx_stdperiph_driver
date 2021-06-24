@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f0xx_rcc.h
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    20-April-2012
+  * @version V1.2.0
+  * @date    01-August-2013
   * @brief   This file contains all the functions prototypes for the RCC 
   *          firmware library.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -407,13 +407,50 @@ typedef struct
 #define RCC_MCOSource_HSE                ((uint8_t)0x06)
 #define RCC_MCOSource_PLLCLK_Div2        ((uint8_t)0x07)
 
-#define IS_RCC_MCO_SOURCE(SOURCE) (((SOURCE) == RCC_MCOSource_NoClock) || ((SOURCE) == RCC_MCOSource_HSI14) || \
-                                   ((SOURCE) == RCC_MCOSource_SYSCLK)  || ((SOURCE) == RCC_MCOSource_HSI)  || \
-                                   ((SOURCE) == RCC_MCOSource_HSE) || ((SOURCE) == RCC_MCOSource_PLLCLK_Div2)|| \
-                                   ((SOURCE) == RCC_MCOSource_LSI) || ((SOURCE) == RCC_MCOSource_LSE))
+#if defined (STM32F0XX_MD) || defined (STM32F030X8)
+ #define IS_RCC_MCO_SOURCE(SOURCE) (((SOURCE) == RCC_MCOSource_NoClock) || ((SOURCE) == RCC_MCOSource_HSI14) || \
+                                    ((SOURCE) == RCC_MCOSource_SYSCLK)  || ((SOURCE) == RCC_MCOSource_HSI)  || \
+                                    ((SOURCE) == RCC_MCOSource_HSE) || ((SOURCE) == RCC_MCOSource_PLLCLK_Div2)|| \
+                                    ((SOURCE) == RCC_MCOSource_LSI) || ((SOURCE) == RCC_MCOSource_LSE))
+#else
+ #define RCC_MCOSource_PLLCLK             ((uint8_t)0x87)
+
+ #define IS_RCC_MCO_SOURCE(SOURCE) (((SOURCE) == RCC_MCOSource_NoClock) || ((SOURCE) == RCC_MCOSource_HSI14)      || \
+                                    ((SOURCE) == RCC_MCOSource_SYSCLK)  || ((SOURCE) == RCC_MCOSource_HSI)        || \
+                                    ((SOURCE) == RCC_MCOSource_HSE)     || ((SOURCE) == RCC_MCOSource_PLLCLK_Div2)|| \
+                                    ((SOURCE) == RCC_MCOSource_LSI)     || ((SOURCE) == RCC_MCOSource_LSE)        || \
+                                    ((SOURCE) == RCC_MCOSource_PLLCLK))
+#endif /* STM32F0XX_MD or STM32F030X8 */
 /**
   * @}
   */ 
+
+/** @defgroup RCC_MCOPrescaler
+  * @{
+  */
+#if !defined (STM32F0XX_MD) && !defined (STM32F030X8)
+#define RCC_MCOPrescaler_1            RCC_CFGR_MCO_PRE_1
+#define RCC_MCOPrescaler_2            RCC_CFGR_MCO_PRE_2
+#define RCC_MCOPrescaler_4            RCC_CFGR_MCO_PRE_4
+#define RCC_MCOPrescaler_8            RCC_CFGR_MCO_PRE_8
+#define RCC_MCOPrescaler_16           RCC_CFGR_MCO_PRE_16
+#define RCC_MCOPrescaler_32           RCC_CFGR_MCO_PRE_32
+#define RCC_MCOPrescaler_64           RCC_CFGR_MCO_PRE_64
+#define RCC_MCOPrescaler_128          RCC_CFGR_MCO_PRE_128
+
+#define IS_RCC_MCO_PRESCALER(PRESCALER) (((PRESCALER) == RCC_MCOPrescaler_1)  || \
+                                         ((PRESCALER) == RCC_MCOPrescaler_2)  || \
+                                         ((PRESCALER) == RCC_MCOPrescaler_4)  || \
+                                         ((PRESCALER) == RCC_MCOPrescaler_8)  || \
+                                         ((PRESCALER) == RCC_MCOPrescaler_16) || \
+                                         ((PRESCALER) == RCC_MCOPrescaler_32) || \
+                                         ((PRESCALER) == RCC_MCOPrescaler_64) || \
+                                         ((PRESCALER) == RCC_MCOPrescaler_128))
+#endif /* STM32F0XX_MD or STM32F030X8 */
+/**
+  * @}
+  */ 
+
 
 /** @defgroup RCC_Flag 
   * @{
@@ -473,7 +510,11 @@ void RCC_PLLConfig(uint32_t RCC_PLLSource, uint32_t RCC_PLLMul);
 void RCC_PLLCmd(FunctionalState NewState);
 void RCC_PREDIV1Config(uint32_t RCC_PREDIV1_Div);
 void RCC_ClockSecuritySystemCmd(FunctionalState NewState);
+#if defined (STM32F0XX_MD) || defined (STM32F030X8)
 void RCC_MCOConfig(uint8_t RCC_MCOSource);
+#else
+void RCC_MCOConfig(uint8_t RCC_MCOSource,uint32_t RCC_MCOPrescaler);
+#endif /* STM32F0XX_MD or STM32F030X8 */
 
 /* System, AHB and APB busses clocks configuration functions ******************/
 void RCC_SYSCLKConfig(uint32_t RCC_SYSCLKSource);

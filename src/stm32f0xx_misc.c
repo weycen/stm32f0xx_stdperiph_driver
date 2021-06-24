@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f0xx_misc.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    20-April-2012
+  * @version V1.2.0
+  * @date    01-August-2013
   * @brief   This file provides all the miscellaneous firmware functions (add-on
   *          to CMSIS functions).
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -70,8 +70,6 @@
 /**
   * @brief  Initializes the NVIC peripheral according to the specified
   *         parameters in the NVIC_InitStruct.
-  * @note   To configure interrupts priority correctly, the NVIC_PriorityGroupConfig()
-  *         function should be called before.    
   * @param  NVIC_InitStruct: pointer to a NVIC_InitTypeDef structure that contains
   *         the configuration information for the specified NVIC peripheral.
   * @retval None

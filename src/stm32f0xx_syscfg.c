@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f0xx_syscfg.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    20-April-2012
+  * @version V1.2.0
+  * @date    01-August-2013
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the SYSCFG peripheral:
   *           + Remapping the memory mapped at 0x00000000  
@@ -27,7 +27,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -177,6 +177,9 @@ void SYSCFG_DMAChannelRemapConfig(uint32_t SYSCFG_DMARemap, FunctionalState NewS
   *            @arg SYSCFG_I2CFastModePlus_PB7: Configure fast mode plus driving capability for PB7
   *            @arg SYSCFG_I2CFastModePlus_PB8: Configure fast mode plus driving capability for PB8
   *            @arg SYSCFG_I2CFastModePlus_PB9: Configure fast mode plus driving capability for PB9
+  *            @arg SYSCFG_I2CFastModePlus_PA9: Configure fast mode plus driving capability for PA9 (only for STM32F0XX_LD and STM32F030X6 devices)
+  *            @arg SYSCFG_I2CFastModePlus_PA10: Configure fast mode plus driving capability for PA10 (only for STM32F0XX_LD and STM32F030X6 devices)
+  *            @arg SYSCFG_I2CFastModePlus_I2C1: Configure fast mode plus driving capability for PB10, PB11, PF6 and PF7(only for STM32F0XX_LD and STM32F030X6 devices)  
   * @param  NewState: new state of the DMA channel remapping. 
   *         This parameter can be: ENABLE or DISABLE.
   * @note   ENABLE:  Enable fast mode plus driving capability for selected pin

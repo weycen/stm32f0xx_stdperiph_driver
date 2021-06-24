@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f0xx_gpio.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    20-April-2012
+  * @version V1.2.0
+  * @date    01-August-2013
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the GPIO peripheral:
   *           + Initialization and Configuration functions
@@ -55,7 +55,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -453,11 +453,11 @@ void GPIO_Write(GPIO_TypeDef* GPIOx, uint16_t PortVal)
   * @param  GPIO_AF: selects the pin to used as Alternate function.
   *          This parameter can be one of the following value:
   *            @arg GPIO_AF_0: WKUP, EVENTOUT, TIM15, SPI1, TIM17,MCO, SWDAT, SWCLK, TIM14,
-  *                            BOOT,USART1, CEC, IR_OUT, SPI2 
-  *            @arg GPIO_AF_1: USART2, CEC, Tim3, USART1, USART2,EVENTOUT, I2C1, I2C2, TIM15 
+  *                            USART1, CEC, IR_OUT, SPI2 
+  *            @arg GPIO_AF_1: USART2, CEC, Tim3, USART1, IR_OUT,EVENTOUT, I2C1, I2C2, TIM15 
   *            @arg GPIO_AF_2: TIM2, TIM1, EVENTOUT, TIM16, TIM17
   *            @arg GPIO_AF_3: TS, I2C1, TIM15, EVENTOUT 
-  *            @arg GPIO_AF_4: TIM14
+  *            @arg GPIO_AF_4: TIM14, I2C1 (only for STM32F0XX_LD and STM32F030X6 devices)
   *            @arg GPIO_AF_5: TIM16, TIM17
   *            @arg GPIO_AF_6: EVENTOUT
   *            @arg GPIO_AF_7: COMP1 OUT, COMP2 OUT 

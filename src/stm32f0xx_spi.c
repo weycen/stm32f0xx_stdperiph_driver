@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f0xx_spi.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    20-April-2012
+  * @version V1.2.0
+  * @date    01-August-2013
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Serial peripheral interface (SPI):
   *           + Initialization and Configuration
@@ -39,6 +39,9 @@
             function.In I2S mode, program the Mode, Standard, Data Format, MCLK 
             Output, Audio frequency and Polarity using I2S_Init() function.
   
+        (#) Configure the FIFO threshold using SPI_RxFIFOThresholdConfig() to select 
+            at which threshold the RXNE event is generated.
+            
         (#) Enable the NVIC and the corresponding interrupt using the function 
             SPI_ITConfig() if you need to use interrupt mode. 
   
@@ -70,7 +73,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f0xx_tim.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    20-April-2012
+  * @version V1.2.0
+  * @date    01-August-2013
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the TIM peripheral:
   *            + TimeBase management
@@ -96,7 +96,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -845,31 +845,40 @@ void TIM_OC2Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct)
   /* Set the Output State */
   tmpccer |= (uint16_t)(TIM_OCInitStruct->TIM_OutputState << 4);
     
-  if(TIMx == TIM1)
+  if((TIMx == TIM1) || (TIMx == TIM15))
   {
-    assert_param(IS_TIM_OUTPUTN_STATE(TIM_OCInitStruct->TIM_OutputNState));
-    assert_param(IS_TIM_OCN_POLARITY(TIM_OCInitStruct->TIM_OCNPolarity));
-    assert_param(IS_TIM_OCNIDLE_STATE(TIM_OCInitStruct->TIM_OCNIdleState));
+    /* Check the parameters */
     assert_param(IS_TIM_OCIDLE_STATE(TIM_OCInitStruct->TIM_OCIdleState));
     
-    /* Reset the Output N Polarity level */
-    tmpccer &= (uint16_t)(~((uint16_t)TIM_CCER_CC2NP));
-    /* Set the Output N Polarity */
-    tmpccer |= (uint16_t)(TIM_OCInitStruct->TIM_OCNPolarity << 4);
-    
-    /* Reset the Output N State */
-    tmpccer &= (uint16_t)(~((uint16_t)TIM_CCER_CC2NE));    
-    /* Set the Output N State */
-    tmpccer |= (uint16_t)(TIM_OCInitStruct->TIM_OutputNState << 4);
-    
-    /* Reset the Ouput Compare and Output Compare N IDLE State */
+    /* Reset the Ouput Compare State */
     tmpcr2 &= (uint16_t)(~((uint16_t)TIM_CR2_OIS2));
-    tmpcr2 &= (uint16_t)(~((uint16_t)TIM_CR2_OIS2N));
     
     /* Set the Output Idle state */
     tmpcr2 |= (uint16_t)(TIM_OCInitStruct->TIM_OCIdleState << 2);
-    /* Set the Output N Idle state */
-    tmpcr2 |= (uint16_t)(TIM_OCInitStruct->TIM_OCNIdleState << 2);
+    
+    if (TIMx == TIM1)
+    {    
+      /* Check the parameters */
+      assert_param(IS_TIM_OUTPUTN_STATE(TIM_OCInitStruct->TIM_OutputNState));
+      assert_param(IS_TIM_OCN_POLARITY(TIM_OCInitStruct->TIM_OCNPolarity));
+      assert_param(IS_TIM_OCNIDLE_STATE(TIM_OCInitStruct->TIM_OCNIdleState));
+      
+      /* Reset the Output N Polarity level */
+      tmpccer &= (uint16_t)(~((uint16_t)TIM_CCER_CC2NP));
+      /* Set the Output N Polarity */
+      tmpccer |= (uint16_t)(TIM_OCInitStruct->TIM_OCNPolarity << 4);
+      
+      /* Reset the Output N State */
+      tmpccer &= (uint16_t)(~((uint16_t)TIM_CCER_CC2NE));    
+      /* Set the Output N State */
+      tmpccer |= (uint16_t)(TIM_OCInitStruct->TIM_OutputNState << 4);
+      
+      /* Reset the Output Compare N IDLE State */
+      tmpcr2 &= (uint16_t)(~((uint16_t)TIM_CR2_OIS2N));
+      
+      /* Set the Output N Idle state */
+      tmpcr2 |= (uint16_t)(TIM_OCInitStruct->TIM_OCNIdleState << 2);
+    }
   }
   /* Write to TIMx CR2 */
   TIMx->CR2 = tmpcr2;

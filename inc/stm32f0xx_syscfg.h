@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f0xx_syscfg.h
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    20-April-2012
+  * @version V1.2.0
+  * @date    01-August-2013
   * @brief   This file contains all the functions prototypes for the SYSCFG firmware 
   *          library.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -151,11 +151,17 @@
 #define SYSCFG_I2CFastModePlus_PB7       SYSCFG_CFGR1_I2C_FMP_PB7 /* Enable Fast Mode Plus on PB7 */
 #define SYSCFG_I2CFastModePlus_PB8       SYSCFG_CFGR1_I2C_FMP_PB8 /* Enable Fast Mode Plus on PB8 */
 #define SYSCFG_I2CFastModePlus_PB9       SYSCFG_CFGR1_I2C_FMP_PB9 /* Enable Fast Mode Plus on PB9 */
+#define SYSCFG_I2CFastModePlus_PA9       SYSCFG_CFGR1_I2C_FMP_PA9 /* Enable Fast Mode Plus on PA9 (only for STM32F0XX_LD and STM32F030X6 devices) */
+#define SYSCFG_I2CFastModePlus_PA10      SYSCFG_CFGR1_I2C_FMP_PA10/* Enable Fast Mode Plus on PA10(only for STM32F0XX_LD and STM32F030X6 devices) */
+#define SYSCFG_I2CFastModePlus_I2C1      SYSCFG_CFGR1_I2C_FMP_I2C1/* Enable Fast Mode Plus on PB10, PB11, PF6 and PF7(only for STM32F0XX_LD and STM32F030X6 devices) */
 
 #define IS_SYSCFG_I2C_FMP(PIN) (((PIN) == SYSCFG_I2CFastModePlus_PB6) || \
                                 ((PIN) == SYSCFG_I2CFastModePlus_PB7) || \
                                 ((PIN) == SYSCFG_I2CFastModePlus_PB8) || \
-                                ((PIN) == SYSCFG_I2CFastModePlus_PB9))
+                                ((PIN) == SYSCFG_I2CFastModePlus_PB9) || \
+                                ((PIN) == SYSCFG_I2CFastModePlus_PA9) || \
+                                ((PIN) == SYSCFG_I2CFastModePlus_PA10)|| \
+                                ((PIN) == SYSCFG_I2CFastModePlus_I2C1))
 
 /**
   * @}

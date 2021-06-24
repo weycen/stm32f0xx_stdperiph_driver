@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f0xx_rcc.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    20-April-2012
+  * @version V1.2.0
+  * @date    01-August-2013
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Reset and clock control (RCC) peripheral:
   *           + Internal/external clocks, PLL, CSS and MCO configuration
@@ -37,7 +37,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -148,9 +148,14 @@ void RCC_DeInit(void)
   /* Set HSION bit */
   RCC->CR |= (uint32_t)0x00000001;
 
+#if defined (STM32F0XX_MD) || defined (STM32F030X8)
   /* Reset SW[1:0], HPRE[3:0], PPRE[2:0], ADCPRE and MCOSEL[2:0] bits */
   RCC->CFGR &= (uint32_t)0xF8FFB80C;
-  
+#else
+  /* Reset SW[1:0], HPRE[3:0], PPRE[2:0], ADCPRE, MCOSEL[2:0], MCOPRE[2:0] and PLLNODIV bits */
+  RCC->CFGR &= (uint32_t)0x08FFB80C;
+#endif /* STM32F0XX_MD or STM32F030X8 */
+
   /* Reset HSEON, CSSON and PLLON bits */
   RCC->CR &= (uint32_t)0xFEF6FFFF;
 
@@ -565,7 +570,7 @@ void RCC_ClockSecuritySystemCmd(FunctionalState NewState)
     RCC->CR &= ~RCC_CR_CSSON;
   }
 }
-
+#if defined (STM32F0XX_MD) || defined (STM32F030X8)
 /**
   * @brief  Selects the clock source to output on MCO pin (PA8).
   * @note   PA8 should be configured in alternate function mode.
@@ -589,7 +594,52 @@ void RCC_MCOConfig(uint8_t RCC_MCOSource)
   /* Select MCO clock source and prescaler */
   *(__IO uint8_t *) CFGR_BYTE3_ADDRESS =  RCC_MCOSource;
 }
-
+#else
+/**
+  * @brief  Selects the clock source to output on MCO pin (PA8) and the corresponding
+  *         prescsaler.
+  * @note   PA8 should be configured in alternate function mode.
+  * @param  RCC_MCOSource: specifies the clock source to output.
+  *          This parameter can be one of the following values:
+  *            @arg RCC_MCOSource_NoClock: No clock selected.
+  *            @arg RCC_MCOSource_HSI14: HSI14 oscillator clock selected.
+  *            @arg RCC_MCOSource_LSI: LSI oscillator clock selected.
+  *            @arg RCC_MCOSource_LSE: LSE oscillator clock selected.
+  *            @arg RCC_MCOSource_SYSCLK: System clock selected.
+  *            @arg RCC_MCOSource_HSI: HSI oscillator clock selected.
+  *            @arg RCC_MCOSource_HSE: HSE oscillator clock selected.
+  *            @arg RCC_MCOSource_PLLCLK_Div2: PLL clock divided by 2 selected.
+  *            @arg RCC_MCOSource_PLLCLK: PLL clock selected.
+  * @param  RCC_MCOPrescaler: specifies the prescaler on MCO pin.
+  *          This parameter can be one of the following values:
+  *            @arg RCC_MCOPrescaler_1: MCO clock is divided by 1.
+  *            @arg RCC_MCOPrescaler_2: MCO clock is divided by 2.
+  *            @arg RCC_MCOPrescaler_4: MCO clock is divided by 4.
+  *            @arg RCC_MCOPrescaler_8: MCO clock is divided by 8.
+  *            @arg RCC_MCOPrescaler_16: MCO clock is divided by 16.
+  *            @arg RCC_MCOPrescaler_32: MCO clock is divided by 32.
+  *            @arg RCC_MCOPrescaler_64: MCO clock is divided by 64.
+  *            @arg RCC_MCOPrescaler_128: MCO clock is divided by 128.    
+  * @retval None
+  */
+void RCC_MCOConfig(uint8_t RCC_MCOSource, uint32_t RCC_MCOPrescaler)
+{
+  uint32_t tmpreg = 0;
+  
+  /* Check the parameters */
+  assert_param(IS_RCC_MCO_SOURCE(RCC_MCOSource));
+  assert_param(IS_RCC_MCO_PRESCALER(RCC_MCOPrescaler));
+    
+  /* Get CFGR value */  
+  tmpreg = RCC->CFGR;
+  /* Clear MCOPRE[2:0] bits */
+  tmpreg &= ~(RCC_CFGR_MCO_PRE | RCC_CFGR_MCO | RCC_CFGR_PLLNODIV);
+  /* Set the RCC_MCOSource and RCC_MCOPrescaler */
+  tmpreg |= (RCC_MCOPrescaler | ((uint32_t)RCC_MCOSource<<24));
+  /* Store the new value */
+  RCC->CFGR = tmpreg;
+}
+#endif /* STM32F0XX_MD or STM32F030X8 */
 /**
   * @}
   */
