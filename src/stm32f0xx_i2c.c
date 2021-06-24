@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f0xx_i2c.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    01-August-2013
+  * @version V1.3.0
+  * @date    16-January-2014
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Inter-Integrated circuit (I2C):
   *           + Initialization and Configuration
@@ -58,7 +58,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2014 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -293,7 +293,6 @@ void I2C_Cmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
   }
 }
 
-
 /**
   * @brief  Enables or disables the specified I2C software reset.
   * @param  I2Cx: where x can be 1 or 2 to select the I2C peripheral.
@@ -377,6 +376,7 @@ void I2C_StretchClockCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 
 /**
   * @brief  Enables or disables I2C wakeup from stop mode.
+  *         This function is not applicable for  STM32F030 devices.  
   * @param  I2Cx: where x can be 1 to select the I2C peripheral.
   * @param  NewState: new state of the I2Cx stop mode.
   *          This parameter can be: ENABLE or DISABLE.
